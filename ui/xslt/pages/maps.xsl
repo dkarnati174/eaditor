@@ -5,7 +5,7 @@
 	<xsl:include href="../functions.xsl"/>
 
 	<xsl:variable name="flickr-api-key" select="/content/config/flickr_api_key"/>
-	
+	<xsl:variable name="path"/>
 	<xsl:variable name="display_path">./</xsl:variable>
 	
 	<xsl:variable name="include_path">
