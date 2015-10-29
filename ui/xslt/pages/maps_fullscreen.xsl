@@ -11,8 +11,8 @@
 	<xsl:variable name="display_path">../</xsl:variable>
 	<xsl:variable name="include_path">
 		<xsl:choose>
-			<xsl:when test="/content/config/aggregator='true'">../</xsl:when>
-			<xsl:otherwise>../../</xsl:otherwise>
+			<xsl:when test="/content/config/aggregator='true'"></xsl:when>
+			<xsl:otherwise>../</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
 	<xsl:variable name="pipeline">maps</xsl:variable>

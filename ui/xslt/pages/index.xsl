@@ -8,10 +8,10 @@
 	<xsl:variable name="collection-name" select="substring-before(substring-after(doc('input:request')/request/servlet-path, 'eaditor/'), '/')"/>
 	<xsl:variable name="display_path"/>
 	<xsl:variable name="include_path">
-		<xsl:choose>
+		<!--<xsl:choose>
 			<xsl:when test="/config/aggregator='true'"/>
 			<xsl:otherwise>../</xsl:otherwise>
-		</xsl:choose>
+		</xsl:choose>-->
 	</xsl:variable>
 
 	<xsl:template match="/">
