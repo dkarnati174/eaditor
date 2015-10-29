@@ -4,7 +4,7 @@
 	<xsl:include href="../functions.xsl"/>
 	<xsl:include href="../serializations/solr/html-templates.xsl"/>
 
-	<xsl:variable name="flickr-api-key" select="/config/flickr_api_key"/>
+	<xsl:variable name="flickr-api-key" select="//config/flickr_api_key"/>
 	<xsl:variable name="display_path"/>
 	<xsl:variable name="pipeline">results_ajax</xsl:variable>
 

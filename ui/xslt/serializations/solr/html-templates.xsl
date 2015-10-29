@@ -197,10 +197,10 @@
 										<xsl:when test="//config/ark[@enabled='true']">
 											<xsl:choose>
 												<xsl:when test="string(str[@name='cid'])">
-													<xsl:value-of select="concat(/content/config/url, 'ark:/', //config/ark/naan, '/', str[@name='recordId'], '/', str[@name='cid'])"/>
+													<xsl:value-of select="concat(//config/url, 'ark:/', //config/ark/naan, '/', str[@name='recordId'], '/', str[@name='cid'])"/>
 												</xsl:when>
 												<xsl:otherwise>
-													<xsl:value-of select="concat(/content/config/url, 'ark:/', //config/ark/naan, '/', str[@name='recordId'])"/>
+													<xsl:value-of select="concat(//config/url, 'ark:/', //config/ark/naan, '/', str[@name='recordId'])"/>
 												</xsl:otherwise>
 											</xsl:choose>
 										</xsl:when>
