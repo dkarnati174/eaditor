@@ -77,10 +77,10 @@
 				<xsl:when test="$mode='private'">
 					<xsl:choose>
 						<xsl:when test="string($id)">
-							<xsl:text>../../../</xsl:text>
+							<xsl:text>../../../../</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:text>../../</xsl:text>
+							<xsl:text>../../../</xsl:text>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:when>
@@ -128,10 +128,10 @@
 			<xsl:when test="$mode='private'">
 				<xsl:choose>
 					<xsl:when test="string($id)">
-						<xsl:text>../../../</xsl:text>
+						<xsl:text>../../../../</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:text>../../</xsl:text>
+						<xsl:text>../../../</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:when>
