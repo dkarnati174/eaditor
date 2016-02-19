@@ -9,9 +9,9 @@
 	<xsl:variable name="display_path"/>
 	<xsl:variable name="include_path">
 		<xsl:choose>
-			<xsl:when test="/content/config/aggregator='true'">./</xsl:when>
+			<xsl:when test="/content/config/aggregator='true'"/>
 			<xsl:otherwise>
-				<xsl:value-of select="if (contains(/content/config/url, 'localhost')) then '../' else /content/config/url"/>
+				<xsl:value-of select="if (contains(/content/config/url, 'localhost')) then './' else /content/config/url"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
