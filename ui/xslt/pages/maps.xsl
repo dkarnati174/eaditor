@@ -7,7 +7,6 @@
 	<xsl:variable name="flickr-api-key" select="/content/config/flickr_api_key"/>
 	<xsl:variable name="path"/>
 	<xsl:variable name="display_path">./</xsl:variable>
-	
 	<xsl:variable name="include_path">
 		<!--<xsl:choose>
 			<xsl:when test="/content/config/aggregator='true'">./</xsl:when>
@@ -49,7 +48,7 @@
 					<script type="text/javascript" src="{$include_path}ui/javascript/jquery.fancybox.pack.js?v=2.1.5"/>
 
 					<!-- maps -->
-					<script type="text/javascript" src="http://www.openlayers.org/api/OpenLayers.js"/>
+					<script type="text/javascript" src="http://openlayers.org/api/2.12/OpenLayers.js"/>
 					<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&amp;sensor=false"/>
 					<script type="text/javascript" src="{$include_path}ui/javascript/maps_functions.js"/>
 					<script type="text/javascript" src="{$include_path}ui/javascript/facet_functions.js"/>

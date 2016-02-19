@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ead="urn:isbn:1-931666-22-9" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xi="http://www.w3.org/2001/XInclude"
 	xmlns:eaditor="https://github.com/ewg118/eaditor" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tei="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="#all" version="2.0">
-	<xsl:include href="../ead/html.xsl"/>
-	<xsl:include href="../ead/html-templates.xsl"/>
+	<xsl:include href="../ead/html.xsl"/>	
 	<xsl:include href="../mods/html.xsl"/>
 	<xsl:include href="../tei/html.xsl"/>
 	<xsl:include href="../../templates.xsl"/>
@@ -221,7 +220,7 @@
 				<!-- add annotorious for TEI files: must be added before jquery to resolve conflicts -->
 				<xsl:if test="namespace-uri()='http://www.tei-c.org/ns/1.0'">
 					<link type="text/css" rel="stylesheet" href="http://annotorious.github.com/latest/annotorious.css"/>
-					<script src="http://www.openlayers.org/api/OpenLayers.js" type="text/javascript"/>
+					<script src="http://openlayers.org/api/2.12/OpenLayers.js" type="text/javascript"/>
 					<script type="text/javascript" src="http://annotorious.github.com/latest/annotorious.min.js"/>
 				</xsl:if>
 				<script type="text/javascript" src="{$include_path}ui/javascript/display_functions.js"/>
@@ -233,7 +232,7 @@
 				<xsl:if test="$hasPoints = true()">
 					<!-- mapping -->
 					<!--<link type="text/css" href="{$include_path}ui/css/timeline-2.3.0.css" rel="stylesheet"/>-->
-					<script src="http://www.openlayers.org/api/OpenLayers.js" type="text/javascript"/>
+					<script src="http://openlayers.org/api/2.12/OpenLayers.js" type="text/javascript"/>
 					<script type="text/javascript" src="{$include_path}ui/javascript/mxn.js"/>
 					<script type="text/javascript" src="{$include_path}ui/javascript/timeline-2.3.0.js"/>
 					<script type="text/javascript" src="{$include_path}ui/javascript/timemap_full.pack.js"/>
@@ -261,9 +260,7 @@
 						</xsl:when>
 					</xsl:choose>
 				</div>
-				<div id="path" style="display:none">
-					<xsl:value-of select="$display_path"/>
-				</div>
+				<div id="path" style="display:none">../</div>
 				<xsl:call-template name="footer"/>
 			</body>
 		</html>
