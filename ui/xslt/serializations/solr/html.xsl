@@ -21,10 +21,10 @@
 	<xsl:variable name="path"/>
 	<xsl:variable name="display_path"/>
 	<xsl:variable name="include_path">
-		<!--<xsl:choose>
+		<xsl:choose>
 			<xsl:when test="/content/config/aggregator='true'"/>
 			<xsl:otherwise>../</xsl:otherwise>
-		</xsl:choose>-->
+		</xsl:choose>
 	</xsl:variable>
 
 	<!-- URL parameters -->
@@ -201,7 +201,7 @@
 
 	<xsl:template name="quick_search">
 		<div class="quick_search">
-			<form role="form" action="." method="GET" id="qs_form">
+			<form role="form" action="{$display_path}results" method="GET" id="qs_form">
 				<input type="hidden" name="q" id="qs_query" value="{$q}"/>
 				<xsl:if test="string($lang)">
 					<input type="hidden" name="lang" value="{$lang}"/>
