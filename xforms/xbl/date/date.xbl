@@ -1,5 +1,5 @@
 <xbl:xbl xmlns="http://www.w3.org/1999/xhtml" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xbl="http://www.w3.org/ns/xbl" xmlns:xxbl="http://orbeon.org/oxf/xml/xbl" xmlns:eaditor="https://github.com/ewg118/eaditor"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xbl="http://www.w3.org/ns/xbl" xmlns:xxbl="http://orbeon.org/oxf/xml/xbl" xmlns:eaditor="https://github.com/ewg118/eaditor" 
 	xmlns:ead="urn:isbn:1-931666-22-9">
 	<xbl:binding id="eaditor-date" element="eaditor|date">
 		<xbl:template>
@@ -163,7 +163,7 @@
 					<!--<fr:xforms-inspector xmlns:fr="http://orbeon.org/oxf/xml/form-runner"/>-->
 					
 					<!-- *****************************MODEL ***************************************** -->
-					<xforms:model xmlns="urn:isbn:1-931666-22-9" id="date-model">
+					<xforms:model xmlns:ead="urn:isbn:1-931666-22-9" id="date-model">
 						<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified">
 							<xs:simpleType name="m.data.standardDate">
 								<xs:union>

@@ -28,15 +28,13 @@
 		<p:input name="request" href="#request"/>
 		<p:input name="data" href="#config"/>
 		<p:input name="config">
-			<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-				<xsl:variable name="collection-name" select="substring-before(substring-after(doc('input:request')/request/servlet-path, 'eaditor/'), '/')"/>
+			<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema">				
 				<!-- url params -->
-				<xsl:param name="q" select="doc('input:request')/request/parameters/parameter[name='q']/value"/>
-				<xsl:param name="start" select="doc('input:request')/request/parameters/parameter[name='start']/value"/>
-				<xsl:variable name="start_var" as="xs:integer">
+				<xsl:param name="q" select="doc('input:request')/request/parameters/parameter[name='q']/value"/>				
+				<xsl:variable name="start">
 					<xsl:choose>
-						<xsl:when test="number($start)">
-							<xsl:value-of select="$start"/>
+						<xsl:when test="number(doc('input:request')/request/parameters/parameter[name='start']/value)">
+							<xsl:value-of select="doc('input:request')/request/parameters/parameter[name='start']/value"/>
 						</xsl:when>
 						<xsl:otherwise>0</xsl:otherwise>
 					</xsl:choose>
@@ -53,6 +51,7 @@
 							<xsl:value-of select="concat($solr-url, '?q=', encode-for-uri($q), '&amp;sort=timestamp%20desc&amp;start=',$start, '&amp;rows=100')"/>
 						</xsl:when>
 						<xsl:otherwise>
+							<xsl:variable name="collection-name" select="substring-before(substring-after(doc('input:request')/request/request-url, 'eaditor/'), '/')"/>
 							<xsl:value-of select="concat($solr-url, '?q=collection-name:', $collection-name, '+AND+', encode-for-uri($q), '&amp;sort=timestamp%20desc&amp;start=',$start, '&amp;rows=100')"/>
 						</xsl:otherwise>
 					</xsl:choose>
