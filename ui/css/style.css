@@ -3,11 +3,22 @@
   GLOBAL
   ****************************************
  */
-html{
-	background-color:#F8F8F8;
+html {
+	background-color: #F8F8F8;
+	background-attachment: scroll;
+	background-image: url("http://numismatics.org/authorities/ui/images/pattern.gif");
+	background-position: center top;
+	background-repeat: repeat;
 }
-.navbar{
+body {
+	color: #535e70;
+	font-family: Georgia,"Times New Roman",Times,serif;
+	font-size: 14px;
+	line-height: 18px;	
+}
+.navbar {
 	margin-bottom:0;
+	border-bottom:4px solid black;
 }
 a > img{
 	border:none;
@@ -28,12 +39,16 @@ ol li{
   FOOTER
   ***************************************
  */
-#footer{
-	background-color:#F8F8F8;
-	border-top:1px solid #E7E7E7;
+#footer {
+	background-color: #535e70;
+	border-top:1px solid #F8F8F8;
 	padding-top:10px;
 	padding-bottom:10px;
-	text-align:center;
+	color:white;
+}
+#footer a {
+	color:white;
+	text-decoration:underline;	
 }
 /*
   ****************************************
