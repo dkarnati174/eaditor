@@ -12,53 +12,39 @@
 	<xsl:variable name="geonames_api_key" select="/content/config/geonames_api_key"/>
 
 	<xsl:template match="/">
-		<xsl:apply-templates select="/content/*[not(local-name()='config')]"/>
+		<xsl:apply-templates select="/content/ead:ead"/>
 	</xsl:template>
 
-	<xsl:template match="mods:mods|ead:ead">
+	<xsl:template match="ead:ead">
 		<kml xmlns="http://earth.google.com/kml/2.0">
 			<Document>
-				<xsl:choose>
-					<xsl:when test="namespace-uri()='http://www.loc.gov/mods/v3'">
-						<xsl:call-template name="mods-content"/>
-					</xsl:when>
-					<xsl:when test="namespace-uri()='urn:isbn:1-931666-22-9'">
-						<xsl:call-template name="ead-content"/>
-					</xsl:when>
-				</xsl:choose>
+				<xsl:variable name="id" select="ead:eadheader/ead:eadid"/>
+				
+				<xsl:apply-templates select="descendant::ead:geogname[string(@source) and string(@authfilenumber)]">
+					<xsl:with-param name="id" select="$id"/>
+				</xsl:apply-templates>
 			</Document>
 		</kml>
 	</xsl:template>
 
 	<!-- **************** EAD TO KML ******************* -->
-	<xsl:template name="ead-content">
-		<xsl:variable name="id" select="ead:eadheader/ead:eadid"/>
-
-		<xsl:apply-templates select="descendant::ead:geogname[string(@source) and string(@authfilenumber)]">
-			<xsl:with-param name="id" select="$id"/>
-		</xsl:apply-templates>
-	</xsl:template>
 
 	<xsl:template match="ead:geogname">
 		<xsl:param name="id"/>
 
 		<xsl:variable name="coordinates">
+			<xsl:variable name="authfilenumber" select="@authfilenumber"/>
+			
 			<xsl:choose>
 				<xsl:when test="@source='geonames'">
 					<xsl:variable name="geonames_data" as="node()*">
-						<xsl:copy-of select="document(concat($geonames-url, '/get?geonameId=', @authfilenumber, '&amp;username=', $geonames_api_key, '&amp;style=full'))"/>
+						<xsl:copy-of select="document(concat($geonames-url, '/get?geonameId=', $authfilenumber, '&amp;username=', $geonames_api_key, '&amp;style=full'))"/>
 					</xsl:variable>
 
 					<xsl:value-of select="concat($geonames_data//lng, ',', $geonames_data//lat)"/>
 				</xsl:when>
 				<xsl:when test="@source='pleiades'">
-					<xsl:variable name="rdf" as="node()*">
-						<xsl:copy-of select="document(concat('http://pleiades.stoa.org/places/', @authfilenumber, '/rdf'))"/>
-					</xsl:variable>
-
-					<xsl:if test="number($rdf//geo:long) and number($rdf//geo:lat)">
-						<xsl:value-of select="concat($rdf//geo:long, ',', $rdf//geo:lat)"/>
-					</xsl:if>
+					<xsl:value-of select="concat(/content/pleiades/place[@id=$authfilenumber]/long, ',', /content/pleiades/place[@id=$authfilenumber]/lat)"/>
 				</xsl:when>
 			</xsl:choose>
 		</xsl:variable>

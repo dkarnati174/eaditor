@@ -2,12 +2,44 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ead="urn:isbn:1-931666-22-9"
 	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:datetime="http://exslt.org/dates-and-times"
 	xmlns:eaditor="https://github.com/ewg118/eaditor" exclude-result-prefixes="#all" version="2.0">
+	
+	<xsl:include href="../../functions.xsl"/>
+	
+	<!-- config variables -->
+	<xsl:variable name="url" select="/content/config/url"/>
+	<xsl:variable name="geonames_api_key" select="/content/config/geonames_api_key"/>
+	<xsl:variable name="flickr-api-key" select="/content/config/flickr_api_key"/>
+	<xsl:variable name="collection-name" select="substring-before(substring-after(doc('input:request')/request/request-url, 'eaditor/'), '/')"/>
+	<xsl:variable name="geonames-url">
+		<xsl:text>http://api.geonames.org</xsl:text>
+	</xsl:variable>
+	
+	<xsl:variable name="places" as="node()*">
+		<places>
+			<xsl:for-each select="descendant::ead:geogname[@source='geonames' and string(@authfilenumber)]">
+				<xsl:variable name="geonames_data" as="node()*">
+					<xsl:copy-of select="document(concat($geonames-url, '/get?geonameId=', @authfilenumber, '&amp;username=', $geonames_api_key, '&amp;style=full'))"/>
+				</xsl:variable>
+				
+				<place authfilenumber="{@authfilenumber}">
+					<xsl:value-of select="concat($geonames_data//lng, ',', $geonames_data//lat)"/>
+				</place>
+			</xsl:for-each>
+		</places>
+	</xsl:variable>
+	
+	<xsl:template match="/">
+		<xsl:apply-templates select="/content/ead:ead"/>
+	</xsl:template>
+	
 	<xsl:template match="ead:ead">
 		<xsl:variable name="title" select="ead:archdesc/ead:did/ead:unittitle"/>
 		<xsl:variable name="recordId" select="ead:eadheader/ead:eadid"/>
 		<xsl:variable name="archdesc-level" select="ead:archdesc/@level"/>
 
 		<add>
+			<!--<xsl:copy-of select="/content/pleiades"/>-->
+			
 			<xsl:if test="/content/config/levels/archdesc/@enabled = true()">
 				<xsl:call-template name="ead-doc">
 					<xsl:with-param name="title" select="$title"/>
@@ -200,19 +232,13 @@
 					</field>
 				</xsl:when>
 				<xsl:when test="@source='pleiades'">
-					<xsl:variable name="rdf" as="node()*">
-						<xsl:copy-of select="document(concat('http://pleiades.stoa.org/places/', $authfilenumber, '/rdf'))"/>
-					</xsl:variable>
-
-					<xsl:if test="number($rdf//geo:long) and number($rdf//geo:lat)">
-						<field name="georef">
-							<xsl:value-of select="$authfilenumber"/>
-							<xsl:text>|</xsl:text>
-							<xsl:value-of select="normalize-space(.)"/>
-							<xsl:text>|</xsl:text>
-							<xsl:value-of select="concat($rdf//geo:long, ',', $rdf//geo:lat)"/>
-						</field>
-					</xsl:if>
+					<field name="georef">
+						<xsl:value-of select="$authfilenumber"/>
+						<xsl:text>|</xsl:text>
+						<xsl:value-of select="normalize-space(.)"/>
+						<xsl:text>|</xsl:text>
+						<xsl:value-of select="concat(/content/pleiades/place[@id=$authfilenumber]/long, ',', /content/pleiades/place[@id=$authfilenumber]/lat)"/>
+					</field>
 				</xsl:when>
 			</xsl:choose>
 		</xsl:if>
@@ -279,9 +305,10 @@
 
 			<xsl:for-each select="ead:unitdate">
 				<xsl:for-each select="tokenize(@normal, '/')">
-					<xsl:call-template name="get_date_hierarchy">
+					<xsl:call-template name="eaditor:get_date_hierarchy">
 						<xsl:with-param name="date" select="."/>
 					</xsl:call-template>
+					
 				</xsl:for-each>
 			</xsl:for-each>
 		</xsl:if>
