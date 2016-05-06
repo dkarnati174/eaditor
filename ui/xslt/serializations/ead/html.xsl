@@ -124,40 +124,52 @@
 	</xsl:variable>
 	
 	<xsl:variable name="include_path">
+		<xsl:variable name="default">
+			<xsl:choose>
+				<xsl:when test="$mode='private'">
+					<xsl:choose>
+						<xsl:when test="string($id)">
+							<xsl:text>../../../../</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>../../../</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:choose>
+						<xsl:when test="contains($uri, 'ark:/')">
+							<xsl:choose>
+								<xsl:when test="string($id)">
+									<xsl:text>../../../../</xsl:text>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>../../../</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:choose>
+								<xsl:when test="string($id)">
+									<xsl:text>../../../</xsl:text>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>../../</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		
 		<xsl:choose>
-			<xsl:when test="$mode='private'">
-				<xsl:choose>
-					<xsl:when test="string($id)">
-						<xsl:text>../../../../</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>../../../</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
+			<xsl:when test="/content/config/aggregator='true'">
+				<xsl:value-of select="concat($default, '../')"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:choose>
-					<xsl:when test="contains($uri, 'ark:/')">
-						<xsl:choose>
-							<xsl:when test="string($id)">
-								<xsl:text>../../../../</xsl:text>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:text>../../../</xsl:text>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:choose>
-							<xsl:when test="string($id)">
-								<xsl:text>../../../</xsl:text>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:text>../../</xsl:text>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:value-of select="$default"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
@@ -186,7 +198,15 @@
 					<xsl:value-of select="/content/config/title"/>
 					<xsl:text>: </xsl:text>
 					<xsl:choose>
-						<xsl:when test="string(ead:eadheader/ead:filedesc/ead:titlestmt/ead:titleproper)">
+						<xsl:when test="ead:eadheader/ead:filedesc/ead:titlestmt/ead:titleproper">
+							<xsl:choose>
+								<xsl:when test="ead:eadheader/ead:filedesc/ead:titlestmt/ead:titleproper[@type='sort']">
+									<xsl:value-of select="ead:eadheader/ead:filedesc/ead:titlestmt/ead:titleproper[@type='sort']"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="ead:eadheader/ead:filedesc/ead:titlestmt/ead:titleproper[1]"/>
+								</xsl:otherwise>
+							</xsl:choose>
 							<xsl:value-of select="ead:eadheader/ead:filedesc/ead:titlestmt/ead:titleproper"/>
 						</xsl:when>
 						<xsl:when test="string(ead:did/ead:unittitle)">
@@ -260,10 +280,10 @@
 					<span property="dcterms:title">
 						<xsl:value-of select="ead:archdesc/ead:did/ead:unittitle"/>
 					</span>
-					<xsl:if test="string(ead:archdesc/ead:did/ead:unitdate)">
+					<xsl:if test="ead:archdesc/ead:did/ead:unitdate">
 						<xsl:text>, </xsl:text>
 						<span>
-							<xsl:value-of select="ead:archdesc/ead:did/ead:unitdate"/>
+							<xsl:value-of select="string-join(ead:archdesc/ead:did/ead:unitdate, ', ')"/>
 						</span>
 					</xsl:if>
 				</h1>
