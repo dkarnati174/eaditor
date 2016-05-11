@@ -125,7 +125,6 @@
 	
 	<xsl:variable name="include_path" select="/content/config/url"/>
 	
-	
 	<!-- boolean variable as to whether there are mappable points -->
 	<xsl:variable name="hasPoints" select="boolean(descendant::ead:geogname[string(@authfilenumber) and string(@source)])"/>
 	
