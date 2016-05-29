@@ -286,10 +286,10 @@
 						<metadata>
 							{
 							for $collection-name in $sequence
-							let $config:= concat('/db/eaditor/', $collection-name, '/config.xml')
+							let $config:= concat('/db/eaditor2/', $collection-name, '/config.xml')
 							return 
 								<collection id="{$collection-name}">
-									<title>{if ($aggregate = true()) then data(doc(concat('/db/eaditor/', $collection-name, '/ead-template.xml'))//ead:publisher) else data(doc($config)/config/title)}</title>
+									<title>{if ($aggregate = true()) then data(doc(concat('/db/eaditor2/', $collection-name, '/ead-template.xml'))//ead:publisher) else data(doc($config)/config/title)}</title>
 									<description>{data(doc($config)/config/description)}</description>
 									<url>{data(doc($config)/config/url)}</url>
 								</collection>
@@ -299,7 +299,7 @@
 					<query id="create-collection">
 						<![CDATA[xquery version "1.0";
 							declare namespace xmldb="http://exist-db.org/xquery/xmldb";
-							let $collection := '/db/eaditor/%COLLECTION%'
+							let $collection := '/db/eaditor2/%COLLECTION%'
 							return
 								xmldb:create-collection($collection, 'guides')
 						]]>
@@ -545,7 +545,7 @@ UNION {<URI> ?p ?o . ?s ?p ?o FILTER (?s = <URI>)}}]]></query>
 
 			<!-- ************* SUBMISSIONS ************* -->
 			<!-- load collections/roles config -->
-			<xforms:submission id="load-collections" serialization="none" method="get" action="{instance('exist-config')/url}eaditor/collections-list.xml" replace="instance"
+			<xforms:submission id="load-collections" serialization="none" method="get" action="{instance('exist-config')/url}eaditor2/collections-list.xml" replace="instance"
 				instance="collections-list" xxforms:username="{instance('exist-config')/username}" xxforms:password="{instance('exist-config')/password}">
 				<xforms:action ev:event="xforms-submit-done">
 					<!-- proceed with setting the interface for collection editing -->
@@ -584,7 +584,7 @@ UNION {<URI> ?p ?o . ?s ?p ?o FILTER (?s = <URI>)}}]]></query>
 				</xforms:action>
 			</xforms:submission>
 
-			<xforms:submission id="save-collections" ref="instance('collections-list')" action="{instance('exist-config')/url}eaditor/collections-list.xml" method="put" replace="none"
+			<xforms:submission id="save-collections" ref="instance('collections-list')" action="{instance('exist-config')/url}eaditor2/collections-list.xml" method="put" replace="none"
 				xxforms:username="{instance('exist-config')/username}" xxforms:password="{instance('exist-config')/password}">
 				<xforms:message ev:event="xforms-submit-error" level="modal">Error Saving Collections List.</xforms:message>
 				<xforms:action ev:event="xforms-submit-done">
@@ -595,7 +595,7 @@ UNION {<URI> ?p ?o . ?s ?p ?o FILTER (?s = <URI>)}}]]></query>
 
 			<!-- loading, saving config -->
 			<xforms:submission id="load-config" serialization="none" method="get"
-				action="{instance('exist-config')/url}eaditor/{if (xxforms:is-user-in-role('eaditor-admin') and not(string(xxforms:get-session-attribute('collection-name')))) then '' else concat(instance('control-instance')/collection-name, '/')}config.xml"
+				action="{instance('exist-config')/url}eaditor2/{if (xxforms:is-user-in-role('eaditor-admin') and not(string(xxforms:get-session-attribute('collection-name')))) then '' else concat(instance('control-instance')/collection-name, '/')}config.xml"
 				replace="instance" instance="config" xxforms:username="{instance('exist-config')/username}" xxforms:password="{instance('exist-config')/password}">
 
 				<xforms:action ev:event="xforms-submit-done">
@@ -688,7 +688,7 @@ UNION {<URI> ?p ?o . ?s ?p ?o FILTER (?s = <URI>)}}]]></query>
 
 			<!-- save templates and add guides collection to eXist on the first run of EADitor -->
 			<xforms:submission id="save-config" ref="instance('config-template')"
-				action="{instance('exist-config')/url}eaditor/{if (instance('control-instance')/firstrun = true()) then '' else concat(instance('control-instance')/collection-name, '/')}config.xml"
+				action="{instance('exist-config')/url}eaditor2/{if (instance('control-instance')/firstrun = true()) then '' else concat(instance('control-instance')/collection-name, '/')}config.xml"
 				method="put" replace="none" xxforms:username="{instance('exist-config')/username}" xxforms:password="{instance('exist-config')/password}">
 				<xforms:message ev:event="xforms-submit-error" level="modal">Error Saving Config.</xforms:message>
 
@@ -714,12 +714,12 @@ UNION {<URI> ?p ?o . ?s ?p ?o FILTER (?s = <URI>)}}]]></query>
 				</xforms:action>
 			</xforms:submission>
 
-			<xforms:submission id="save-ead-template" ref="instance('ead-template')" action="{instance('exist-config')/url}eaditor/{instance('control-instance')/collection-name}/ead-template.xml"
+			<xforms:submission id="save-ead-template" ref="instance('ead-template')" action="{instance('exist-config')/url}eaditor2/{instance('control-instance')/collection-name}/ead-template.xml"
 				method="put" replace="none" xxforms:username="{instance('exist-config')/username}" xxforms:password="{instance('exist-config')/password}">
 				<xforms:message ev:event="xforms-submit-error" level="modal">Error Saving EAD Template.</xforms:message>
 			</xforms:submission>
 
-			<xforms:submission id="save-c-template" ref="instance('c-template')" action="{instance('exist-config')/url}eaditor/{instance('control-instance')/collection-name}/c-template.xml"
+			<xforms:submission id="save-c-template" ref="instance('c-template')" action="{instance('exist-config')/url}eaditor2/{instance('control-instance')/collection-name}/c-template.xml"
 				method="put" replace="none" xxforms:username="{instance('exist-config')/username}" xxforms:password="{instance('exist-config')/password}">
 				<xforms:message ev:event="xforms-submit-error" level="modal">Error Saving Component Template.</xforms:message>
 				<xforms:toggle case="file-list" ev:event="xforms-submit-done"></xforms:toggle>
@@ -727,7 +727,7 @@ UNION {<URI> ?p ?o . ?s ?p ?o FILTER (?s = <URI>)}}]]></query>
 
 			<!--***************** XQUERY ******************-->
 			<!-- xquery for getting and processing query results into pages of items -->
-			<xforms:submission id="xquery-pagination" ref="instance('eXist-xquery')" action="{instance('exist-config')/url}eaditor/{instance('control-instance')/collection-name}/guides" method="post"
+			<xforms:submission id="xquery-pagination" ref="instance('eXist-xquery')" action="{instance('exist-config')/url}eaditor2/{instance('control-instance')/collection-name}/guides" method="post"
 				replace="instance" instance="pagination-result">
 				<xforms:action ev:event="xforms-submit">					
 					<xforms:setvalue ref="instance('control-instance')/status"/>
@@ -743,7 +743,7 @@ UNION {<URI> ?p ?o . ?s ?p ?o FILTER (?s = <URI>)}}]]></query>
 				</xforms:action>
 			</xforms:submission>
 
-			<xforms:submission id="xquery-collection" ref="instance('eXist-xquery')" resource="{instance('exist-config')/url}eaditor/{instance('control-instance')/collection-name}/guides" method="post"
+			<xforms:submission id="xquery-collection" ref="instance('eXist-xquery')" resource="{instance('exist-config')/url}eaditor2/{instance('control-instance')/collection-name}/guides" method="post"
 				replace="instance" instance="xquery-result" xxforms:username="{instance('exist-config')/username}" xxforms:password="{instance('exist-config')/password}">
 				<xforms:setvalue ref="instance('control-instance')/error" ev:event="xforms-submit-error">Error querying eXist database.</xforms:setvalue>
 			</xforms:submission>
@@ -755,12 +755,12 @@ UNION {<URI> ?p ?o . ?s ?p ?o FILTER (?s = <URI>)}}]]></query>
 
 			<!-- ************************* CRUD ON OBJECT RECORDS ********************** -->
 			<xforms:submission id="load-doc" serialization="none" method="get"
-				action="{instance('exist-config')/url}eaditor/{instance('control-instance')/collection-name}/guides/{instance('control-instance')/id}.xml" replace="instance" instance="guide"
+				action="{instance('exist-config')/url}eaditor2/{instance('control-instance')/collection-name}/guides/{instance('control-instance')/id}.xml" replace="instance" instance="guide"
 				xxforms:username="{instance('exist-config')/username}" xxforms:password="{instance('exist-config')/password}">
 				<xforms:message ev:event="xforms-submit-error" level="modal">Cannot load finding aid.</xforms:message>
 			</xforms:submission>
 
-			<xforms:submission id="delete-doc" action="{instance('exist-config')/url}eaditor/{instance('control-instance')/collection-name}/guides/{instance('control-instance')/id}.xml"
+			<xforms:submission id="delete-doc" action="{instance('exist-config')/url}eaditor2/{instance('control-instance')/collection-name}/guides/{instance('control-instance')/id}.xml"
 				method="delete" replace="none" xxforms:username="{instance('exist-config')/username}" xxforms:password="{instance('exist-config')/password}">
 				<xforms:setvalue ev:event="xforms-submit-done" ref="instance('control-instance')/status">Finding aid successfully deleted.</xforms:setvalue>
 			</xforms:submission>

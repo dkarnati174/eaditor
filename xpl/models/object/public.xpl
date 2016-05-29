@@ -92,11 +92,11 @@
 
 									<xsl:choose>
 										<xsl:when test="string($id)">
-											<xsl:apply-templates select="document(concat(/content/exist-config/url, 'eaditor/', $collection-name, '/guides/', $doc, '.xml'))/descendant::*[@id=$id or
+											<xsl:apply-templates select="document(concat(/content/exist-config/url, 'eaditor2/', $collection-name, '/guides/', $doc, '.xml'))/descendant::*[@id=$id or
 												@xml:id=$id]"/>
 										</xsl:when>
 										<xsl:otherwise>
-											<xsl:apply-templates select="document(concat(/content/exist-config/url, 'eaditor/', $collection-name, '/guides/', $doc, '.xml'))/*"/>
+											<xsl:apply-templates select="document(concat(/content/exist-config/url, 'eaditor2/', $collection-name, '/guides/', $doc, '.xml'))/*"/>
 										</xsl:otherwise>
 									</xsl:choose>
 								</xsl:when>
@@ -178,10 +178,10 @@
 
 							<xsl:choose>
 								<xsl:when test="string($id)">
-									<xsl:apply-templates select="document(concat(/exist-config/url, 'eaditor/', $collection-name, '/guides/', $doc, '.xml'))/descendant::*[@id=$id or @xml:id=$id]"/>
+									<xsl:apply-templates select="document(concat(/exist-config/url, 'eaditor2/', $collection-name, '/guides/', $doc, '.xml'))/descendant::*[@id=$id or @xml:id=$id]"/>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:apply-templates select="document(concat(/exist-config/url, 'eaditor/', $collection-name, '/guides/', $doc, '.xml'))/*"/>
+									<xsl:apply-templates select="document(concat(/exist-config/url, 'eaditor2/', $collection-name, '/guides/', $doc, '.xml'))/*"/>
 								</xsl:otherwise>
 							</xsl:choose>
 
