@@ -67,22 +67,22 @@
 					<h3>Navigation</h3>
 					<ul>
 						<li>
-							<a href="http://numismatics.org/Archives/Research">Conducting Research</a>
+							<a href="http://numismatics.org/archive/research/">Conducting Research</a>
 						</li>
 						<li>
-							<a href="http://numismatics.org/Archives/CitationFormat">Citation Format</a>
+							<a href="http://numismatics.org/archive/citationformat/">Citation Format</a>
 						</li>
 						<li>
-							<a href="http://numismatics.org/Archives/ANSPastOfficers">Officers</a>
+							<a href="http://numismatics.org/pastofficers/">Officers</a>
 						</li>
 						<li>
-							<a href="http://numismatics.org/Archives/Awards">Awards</a>
+							<a href="http://numismatics.org/archive/awards/">Awards</a>
 						</li>
 						<li>
-							<a href="http://numismatics.org/Archives/GraduateSeminar">Graduate Seminar</a>
+							<a href="http://numismatics.org/seminar/">Graduate Seminar</a>
 						</li>
 						<li>
-							<a href="http://numismatics.org/Archives/PublicationHistory">Publications Program</a>
+							<a href="http://numismatics.org/publications/history/">Publications Program</a>
 						</li>
 					</ul>
 				</div>
