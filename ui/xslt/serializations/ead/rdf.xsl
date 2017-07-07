@@ -65,17 +65,28 @@
 	</xsl:template>
 
 	<xsl:template name="c-content">
-		<arch:Collection rdf:about="{$objectUri}/{@id}">
+		<xsl:variable name="parentId">
+			<xsl:choose>
+				<xsl:when test="parent::ead:dsc">
+					<xsl:value-of select="ancestor::ead:ead/ead:eadheader/ead:eadid"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="concat(ancestor::ead:ead/ead:eadheader/ead:eadid, '#', parent::ead:c/@id)"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<arch:Collection rdf:about="{$objectUri}#{@id}">
 			<!-- title, creator, abstract, etc. -->
 			<xsl:apply-templates select="ead:did"/>
 			<dcterms:isPartOf>
 				<xsl:attribute name="rdf:resource">
 					<xsl:choose>
 						<xsl:when test="//config/ark[@enabled='true']">
-							<xsl:value-of select="concat($url, 'ark:/', //config/ark/naan, '/', ead:odd[@type='eaditor:parent'])"/>
+							<xsl:value-of select="concat($url, 'ark:/', //config/ark/naan, '/', $parentId)"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="concat($url, 'id/', ead:odd[@type='eaditor:parent'])"/>
+							<xsl:value-of select="concat($url, 'id/', $parentId)"/>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
@@ -119,6 +130,9 @@
 				<xsl:when test="@source='lcsh' or @source='lcgft'">
 					<xsl:value-of select="concat('http://id.loc.gov/authorities/', @authfilenumber)"/>
 				</xsl:when>
+				<xsl:when test="@source='lcnaf'">
+					<xsl:value-of select="concat('http://id.loc.gov/authorities/names/', @authfilenumber)"/>
+				</xsl:when>
 				<xsl:when test="@source='viaf'">
 					<xsl:value-of select="concat('http://viaf.org/viaf/', @authfilenumber)"/>
 				</xsl:when>
@@ -157,15 +171,53 @@
 			<xsl:if test="@xml:lang">
 				<xsl:attribute name="xml:lang" select="@xml:lang"/>
 			</xsl:if>
-			<xsl:choose>
-				<xsl:when test="contains(child::node()/@authfilenumber, 'http://')">
-					<xsl:attribute name="rdf:resource" select="child::node()[contains(@authfilenumber, 'http://')][1]/@authfilenumber"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="."/>
-				</xsl:otherwise>
-			</xsl:choose>
+			<xsl:value-of select="."/>
 		</xsl:element>
+	</xsl:template>
+	
+	<xsl:template match="ead:origination">
+		<xsl:choose>
+			<xsl:when test="child::*">
+				<xsl:for-each select="child::*">
+					<dcterms:creator>
+						<xsl:if test="@xml:lang">
+							<xsl:attribute name="xml:lang" select="@xml:lang"/>
+						</xsl:if>
+						<xsl:choose>
+							<xsl:when test="matches(@authfilenumber, 'https?://')">
+								<xsl:attribute name="rdf:resource" select="@authfilenumber"/>
+							</xsl:when>
+							<xsl:when test="@authfilenumber and @source">
+								<xsl:attribute name="rdf:resource">
+									<xsl:choose>
+										<xsl:when test="@source='lcnaf'">
+											<xsl:value-of select="concat('http://id.loc.gov/authorities/names/', @authfilenumber)"/>
+										</xsl:when>
+										<xsl:when test="@source='viaf'">
+											<xsl:value-of select="concat('http://viaf.org/viaf/', @authfilenumber)"/>
+										</xsl:when>										
+										<xsl:when test="contains(@authfilenumber, 'http://')">
+											<xsl:value-of select="@authfilenumber"/>
+										</xsl:when>
+									</xsl:choose>
+								</xsl:attribute>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="."/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</dcterms:creator>
+				</xsl:for-each>
+			</xsl:when>
+			<xsl:otherwise>
+				<dcterms:creator>
+					<xsl:if test="@xml:lang">
+						<xsl:attribute name="xml:lang" select="@xml:lang"/>
+					</xsl:if>
+					<xsl:value-of select="."/>
+				</dcterms:creator>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
 	<xsl:template match="ead:daogrp">		

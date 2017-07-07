@@ -5,6 +5,7 @@
 	<xsl:include href="../functions.xsl"/>
 
 	<xsl:variable name="flickr-api-key" select="/content/config/flickr_api_key"/>
+	<xsl:variable name="mapboxKey" select="/content/config/mapboxKey"/>
 	<xsl:variable name="path"/>
 	<xsl:variable name="display_path">./</xsl:variable>
 	<xsl:variable name="include_path">
@@ -33,8 +34,8 @@
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
 				<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"/>
 				<!-- bootstrap -->
-				<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
-				<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"/>
+				<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+				<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"/>
 				<link rel="stylesheet" href="{$include_path}ui/css/style.css"/>
 				<xsl:if test="string(//config/google_analytics)">
 					<script type="text/javascript">
@@ -50,8 +51,14 @@
 					<script type="text/javascript" src="{$include_path}ui/javascript/jquery.fancybox.pack.js?v=2.1.5"/>
 
 					<!-- maps -->
-					<script type="text/javascript" src="http://openlayers.org/api/2.12/OpenLayers.js"/>
-					<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&amp;sensor=false"/>
+					<link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.7/dist/leaflet.css"/>
+					<link rel="stylesheet" href="{$include_path}ui/css/MarkerCluster.css"/>
+					<link rel="stylesheet" href="{$include_path}ui/css/MarkerCluster.Default.css"/>
+					
+					<!-- js -->
+					<script src="https://unpkg.com/leaflet@0.7.7/dist/leaflet.js"/>					
+					<script type="text/javascript" src="{$include_path}ui/javascript/leaflet.ajax.min.js"/>
+					<script type="text/javascript" src="{$include_path}ui/javascript/leaflet.markercluster.js"/>
 					<script type="text/javascript" src="{$include_path}ui/javascript/maps_functions.js"/>
 					<script type="text/javascript" src="{$include_path}ui/javascript/facet_functions.js"/>
 				</xsl:if>
@@ -97,6 +104,9 @@
 						</xsl:if>
 						<span id="pipeline">
 							<xsl:value-of select="$pipeline"/>
+						</span>
+						<span id="mapboxKey">
+							<xsl:value-of select="$mapboxKey"/>
 						</span>
 						<span id="path">
 							<xsl:value-of select="$display_path"/>

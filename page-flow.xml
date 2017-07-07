@@ -24,9 +24,13 @@
 	<page path="/eaditor/admin/reorder/" view="xforms/reorder.xhtml"/>
 	<page path="/eaditor/admin/permissions/" view="xforms/permissions.xhtml"/>
 	<page path="/eaditor/admin/settings/" view="xforms/settings.xhtml"/>
+	<page path="/eaditor/admin/harvester/" view="xforms/harvester.xhtml"/>
 	<page path="/eaditor/admin/users/" view="xforms/users.xhtml"/>
 	<page path="/eaditor/admin/query" view="xpl/xforms/sql.xpl"/>
-	<!--<page path="/eaditor/admin/control/" view="xforms/control.xhtml"/>-->
+	
+	<!-- harvesting REST interfaces -->
+	<page path="/eaditor/admin/harvest/extract" view="xpl/xforms/harvest/extract.xpl"/>
+	<page path="/eaditor/admin/harvest/parse-html" view="xpl/xforms/harvest/parse-html.xpl"/>
 	
 	<!-- editor forms -->
 	<!-- EAD-related -->
@@ -89,7 +93,8 @@
 	<page path="/eaditor/api/get" model="xpl/models/object/public.xpl" view="xpl/views/api/get.xpl"/>
 	<page path="/eaditor/pelagios.void.rdf" model="xpl/models/config.xpl" view="xpl/views/serializations/config/void.xpl"/>
 	<page path="/eaditor/pelagios.rdf" model="xpl/models/solr/pelagios.xpl" view="xpl/views/serializations/solr/rdf-pelagios.xpl"/>
-	<page path="/eaditor/query.kml" model="xpl/models/solr/kml.xpl" view="xpl/views/serializations/solr/kml.xpl"/>
+	<page path="/eaditor/query.kml" model="xpl/models/solr/geo.xpl" view="xpl/views/serializations/solr/kml.xpl"/>
+	<page path="/eaditor/query.geojson" model="xpl/models/solr/geo.xpl" view="xpl/views/serializations/solr/geojson.xpl"/>
 	
 	<!-- ***** INDIVIDUAL PROJECTS ***** -->
 	<!--<page path="/eaditor/[^\/]+/config.xml" view="xpl/models/config.xpl"/>-->
@@ -100,7 +105,6 @@
 	<page path="/eaditor/[^\/]+/sparql" view="xpl/views/pages/sparql.xpl"/>
 	<page path="/eaditor/[^\/]+/maps" model="xpl/models/solr/maps.xpl" view="xpl/views/pages/maps.xpl"/>
 	<page path="/eaditor/[^\/]+/maps/fullscreen" model="xpl/models/solr/maps.xpl" view="xpl/views/pages/maps-fullscreen.xpl"/>
-
 
 	<!-- Services -->
 	<!-- Atom feed -->
